@@ -14,6 +14,10 @@ export class RoomRepositoryService {
     return this.http.get<Room[]>(this.createCompleteRoute(route, this.envUrl.urlAddress));
   }
 
+  public getRoom = (route: string) => {
+    return this.http.get<Room>(this.createCompleteRoute(route, this.envUrl.urlAddress));
+  }
+
   public createRoom = (route: string, room: Room) => {
     return this.http.post(this.createCompleteRoute(route, this.envUrl.urlAddress), room, this.generateHeaders());
   }

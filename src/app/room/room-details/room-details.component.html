@@ -1,0 +1,49 @@
+<div class="card card-body bg-light mb-2 mt-2">
+    <div class="row">
+      <div class="col-md-3">
+        <strong>First name:</strong>
+      </div>
+      <div class="col-md-3">
+        {{room?.number}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <strong>Last name:</strong>
+      </div>
+      <div class="col-md-3">
+        {{room?.type}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <strong>Email:</strong>
+      </div>
+      <div class="col-md-3">
+        {{room?.price}}
+      </div>
+    </div>
+</div>
+  
+  <div class="row">
+    <div class="col-md-12">
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Reservation start date</th>
+              <th>Reservation end date</th>
+              <th>Reservation total price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let reservation of room?.reservations">
+              <td>{{reservation?.startDate | date: 'dd/MM/yyyy'}}</td>
+              <td>{{reservation?.endDate | date: 'dd/MM/yyyy'}}</td>
+              <td>{{reservation?.totalPrice}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>

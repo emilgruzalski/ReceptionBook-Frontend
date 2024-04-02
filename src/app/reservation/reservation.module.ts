@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 
 import { ReservationRoutingModule } from './reservation-routing.module';
 import { ReservationListComponent } from './reservation-list/reservation-list.component';
+import { ReservationDetailsComponent } from './reservation-details/reservation-details.component';
 
 
 @NgModule({
   declarations: [
-    ReservationListComponent
+    ReservationListComponent,
+    ReservationDetailsComponent
   ],
   imports: [
     CommonModule,

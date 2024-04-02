@@ -1,0 +1,75 @@
+<div class="card card-body bg-light mb-2 mt-2">
+    <div class="row">
+      <div class="col-md-3">
+        <strong>Start date:</strong>
+      </div>
+      <div class="col-md-3">
+        {{reservation?.startDate | date: 'dd/MM/yyyy'}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <strong>End date:</strong>
+      </div>
+      <div class="col-md-3">
+        {{reservation?.endDate | date: 'dd/MM/yyyy'}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <strong>Total price:</strong>
+      </div>
+      <div class="col-md-3">
+        {{reservation?.totalPrice}}
+      </div>
+    </div>
+    
+</div>
+  
+  <div class="row">
+    <div class="col-md-12">
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Room number</th>
+              <th>Room type</th>
+              <th>Room price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{reservation?.room?.number}}</td>
+              <td>{{reservation?.room?.type}}</td>
+              <td>{{reservation?.room?.price}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Customer first name</th>
+              <th>Customer last name</th>
+              <th>Customer email</th>
+              <th>Customer phone number</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{reservation?.customer?.firstName}}</td>
+              <td>{{reservation?.customer?.lastName}}</td>
+              <td>{{reservation?.customer?.email}}</td>
+              <td>{{reservation?.customer?.phoneNumber}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>

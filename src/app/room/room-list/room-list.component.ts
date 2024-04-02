@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 
 import { Room } from './../../_interfaces/room.model';
 import { RoomRepositoryService } from './../../shared/services/room-repository.service';
+import { ErrorHandlerService } from './../../shared/services/error-handler.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-room-list',
@@ -10,8 +13,9 @@ import { RoomRepositoryService } from './../../shared/services/room-repository.s
 })
 export class RoomListComponent implements OnInit {
   rooms: Room[];
+  errorMessage: string = '';
 
-  constructor(private repository: RoomRepositoryService) { }
+  constructor(private repository: RoomRepositoryService, private errorHandler: ErrorHandlerService, private router: Router) { }
 
   ngOnInit(): void {
     this.getAllRooms();
@@ -20,9 +24,18 @@ export class RoomListComponent implements OnInit {
   private getAllRooms = () => {
     const apiAddress: string = 'api/rooms';
     this.repository.getRooms(apiAddress)
-    .subscribe(res => {
-      this.rooms = res;
+    .subscribe({
+      next: (res: Room[]) => this.rooms = res,
+      error: (err: HttpErrorResponse) => {
+          this.errorHandler.handleError(err);
+          this.errorMessage = this.errorHandler.errorMessage;
+      }
     })
+  }
+
+  public getRoomDetails = (id) => {
+    const detailsUrl: string = `room/details/${id}`;
+    this.router.navigate([detailsUrl])
   }
 
 }

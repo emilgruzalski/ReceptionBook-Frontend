@@ -14,6 +14,10 @@ export class ReservationRepositoryService {
     return this.http.get<Reservation[]>(this.createCompleteRoute(route, this.envUrl.urlAddress));
   }
 
+  public getReservation = (route: string) => {
+    return this.http.get<Reservation>(this.createCompleteRoute(route, this.envUrl.urlAddress));
+  }
+
   public createReservation = (route: string, reservation: Reservation) => {
     return this.http.post(this.createCompleteRoute(route, this.envUrl.urlAddress), reservation, this.generateHeaders());
   }
