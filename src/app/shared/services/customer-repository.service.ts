@@ -14,6 +14,10 @@ export class CustomerRepositoryService {
     return this.http.get<Customer[]>(this.createCompleteRoute(route, this.envUrl.urlAddress));
   }
 
+  public getCustomer = (route: string) => {
+    return this.http.get<Customer>(this.createCompleteRoute(route, this.envUrl.urlAddress));
+  }
+
   public createCustomer = (route: string, customer: Customer) => {
     return this.http.post(this.createCompleteRoute(route, this.envUrl.urlAddress), customer, this.generateHeaders());
   }

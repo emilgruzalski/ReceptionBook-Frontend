@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Customer } from './../../_interfaces/customer.model';
 import { CustomerRepositoryService } from './../../shared/services/customer-repository.service';
@@ -14,7 +15,7 @@ export class CustomerListComponent implements OnInit {
   customers: Customer[];
   errorMessage: string = '';
 
-  constructor(private repository: CustomerRepositoryService, private errorHandler: ErrorHandlerService) { }
+  constructor(private repository: CustomerRepositoryService, private errorHandler: ErrorHandlerService, private router: Router) { }
 
   ngOnInit(): void {
     this.getAllCustomers();
@@ -30,6 +31,11 @@ export class CustomerListComponent implements OnInit {
         this.errorMessage = this.errorHandler.errorMessage;
       }
     })
+  }
+
+  public getCustomerDetails = (id) => {
+    const detailsUrl: string = `customer/details/${id}`;
+    this.router.navigate([detailsUrl])
   }
 
 }

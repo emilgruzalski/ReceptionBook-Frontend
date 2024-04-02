@@ -9,7 +9,6 @@
             <tr>
               <th>Start date</th>
               <th>End date</th>
-              <th>Status</th>
               <th>Total price</th>
               <th>Customer name</th>
               <th>Room number</th>
@@ -22,7 +21,6 @@
             <tr *ngFor="let reservation of reservations">
               <td>{{reservation.startDate | date: 'dd/MM/yyyy'}}</td>
               <td>{{reservation.endDate | date: 'dd/MM/yyyy'}}</td>
-              <td>{{reservation.status}}</td>
               <td>{{reservation.totalPrice}}</td>
               <td>{{reservation.customerName}}</td>
               <td>{{reservation.roomNumber}}</td>
