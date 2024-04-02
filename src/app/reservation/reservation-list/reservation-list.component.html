@@ -1,0 +1,37 @@
+<div class="row">
+    <div class="offset-10 col-md-2 mt-2"> <a href="#">Create Reservation</a> </div>
+  </div> <br>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Start date</th>
+              <th>End date</th>
+              <th>Status</th>
+              <th>Total price</th>
+              <th>Customer name</th>
+              <th>Room number</th>
+              <th>Details</th>
+              <th>Update</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let reservation of reservations">
+              <td>{{reservation.startDate | date: 'dd/MM/yyyy'}}</td>
+              <td>{{reservation.endDate | date: 'dd/MM/yyyy'}}</td>
+              <td>{{reservation.status}}</td>
+              <td>{{reservation.totalPrice}}</td>
+              <td>{{reservation.customerName}}</td>
+              <td>{{reservation.roomNumber}}</td>
+              <td><button type="button" id="details" class="btn btn-primary">Details</button></td>
+              <td><button type="button" id="update" class="btn btn-success">Update</button></td>
+              <td><button type="button" id="delete" class="btn btn-danger">Delete</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
