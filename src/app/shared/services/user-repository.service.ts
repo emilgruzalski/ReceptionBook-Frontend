@@ -14,6 +14,10 @@ export class UserRepositoryService {
     return this.http.get<User[]>(this.createCompleteRoute(route, this.envUrl.urlAddress));
   }
 
+  public getUser = (route: string) => {
+    return this.http.get<User>(this.createCompleteRoute(route, this.envUrl.urlAddress));
+  }
+
   public deleteUser = (route: string) => {
     return this.http.delete(this.createCompleteRoute(route, this.envUrl.urlAddress));
   }

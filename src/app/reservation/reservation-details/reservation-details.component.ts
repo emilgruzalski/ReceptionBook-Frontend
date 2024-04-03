@@ -29,8 +29,7 @@ export class ReservationDetailsComponent implements OnInit {
     .subscribe({
       next: (res: Reservation) => this.reservation = res,
       error: (err: HttpErrorResponse) => {
-        this.errorHandler.handleError(err);
-        this.errorMessage = this.errorHandler.errorMessage;
+        this.errorMessage = err.message;
       }
     })
   }

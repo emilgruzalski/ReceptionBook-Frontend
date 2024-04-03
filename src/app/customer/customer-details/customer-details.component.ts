@@ -29,8 +29,7 @@ export class CustomerDetailsComponent implements OnInit {
     .subscribe({
       next: (res: Customer) => this.customer = res,
       error: (err: HttpErrorResponse) => {
-        this.errorHandler.handleError(err);
-        this.errorMessage = this.errorHandler.errorMessage;
+        this.errorMessage = err.message;
       }
     })
   }

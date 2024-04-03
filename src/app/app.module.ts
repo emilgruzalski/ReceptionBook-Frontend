@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,6 +14,13 @@ import { CustomerModule } from './customer/customer.module';
 import { ReservationModule } from './reservation/reservation.module';
 import { UserModule } from './user/user.module';
 import { InternalServerComponent } from './error-pages/internal-server/internal-server.component';
+import { ErrorHandlerService } from './shared/services/error-handler.service';
+import { JwtModule } from "@auth0/angular-jwt";
+import { ForbiddenComponent } from './forbidden/forbidden.component';
+
+export function tokenGetter() {
+  return localStorage.getItem("token");
+}
 
 @NgModule({
   declarations: [
@@ -21,7 +28,8 @@ import { InternalServerComponent } from './error-pages/internal-server/internal-
     HomeComponent,
     MenuComponent,
     NotFoundComponent,
-    InternalServerComponent
+    InternalServerComponent,
+    ForbiddenComponent
   ],
   imports: [
     BrowserModule,
@@ -32,9 +40,20 @@ import { InternalServerComponent } from './error-pages/internal-server/internal-
     RoomModule,
     CustomerModule,
     ReservationModule,
-    UserModule
+    UserModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        allowedDomains: ["localhost:8081"],
+        disallowedRoutes: []
+      }
+    })
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, 
+      useClass: ErrorHandlerService, 
+      multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

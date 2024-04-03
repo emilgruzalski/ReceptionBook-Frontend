@@ -27,8 +27,7 @@ export class RoomListComponent implements OnInit {
     .subscribe({
       next: (res: Room[]) => this.rooms = res,
       error: (err: HttpErrorResponse) => {
-          this.errorHandler.handleError(err);
-          this.errorMessage = this.errorHandler.errorMessage;
+        this.errorMessage = err.message;
       }
     })
   }
