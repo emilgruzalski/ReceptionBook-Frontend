@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EnvironmentUrlService } from './environment-url.service';
 import { Customer } from './../../_interfaces/customer.model';
+import { CustomerForCreation } from 'src/app/_interfaces/customerForCreation.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class CustomerRepositoryService {
     return this.http.get<Customer>(this.createCompleteRoute(route, this.envUrl.urlAddress));
   }
 
-  public createCustomer = (route: string, customer: Customer) => {
+  public createCustomer = (route: string, customer: CustomerForCreation) => {
     return this.http.post(this.createCompleteRoute(route, this.envUrl.urlAddress), customer, this.generateHeaders());
   }
 

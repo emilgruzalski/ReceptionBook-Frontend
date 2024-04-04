@@ -27,7 +27,8 @@ export class ReservationListComponent implements OnInit {
     .subscribe({
       next: (res: Reservation[]) => this.reservations = res,
       error: (err: HttpErrorResponse) => {
-        this.errorMessage = err.message;
+        this.errorHandler.handleError(err);
+        this.errorMessage = this.errorHandler.errorMessage;
       }
     })
   }

@@ -28,7 +28,8 @@ export class UserListComponent implements OnInit {
     .subscribe({
       next: (res: User[]) => this.users = res,
       error: (err: HttpErrorResponse) => {
-        this.errorMessage = err.message;
+        this.errorHandler.handleError(err);
+        this.errorMessage = this.errorHandler.errorMessage;
       }
     })
   }

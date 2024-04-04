@@ -17,6 +17,7 @@ import { InternalServerComponent } from './error-pages/internal-server/internal-
 import { ErrorHandlerService } from './shared/services/error-handler.service';
 import { JwtModule } from "@auth0/angular-jwt";
 import { ForbiddenComponent } from './forbidden/forbidden.component';
+import { DatePipe } from '@angular/common';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -52,7 +53,9 @@ export function tokenGetter() {
   providers: [
     { provide: HTTP_INTERCEPTORS, 
       useClass: ErrorHandlerService, 
-      multi: true}
+      multi: true
+    },
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })

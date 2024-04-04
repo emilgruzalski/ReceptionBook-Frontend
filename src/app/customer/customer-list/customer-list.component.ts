@@ -27,7 +27,8 @@ export class CustomerListComponent implements OnInit {
     .subscribe({
       next: (res: Customer[]) => this.customers = res,
       error: (err: HttpErrorResponse) => {
-        this.errorMessage = err.message;
+        this.errorHandler.handleError(err);
+        this.errorMessage = this.errorHandler.errorMessage;
       }
     })
   }

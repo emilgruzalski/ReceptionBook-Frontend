@@ -3,13 +3,16 @@ import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { ErrorModalComponent } from './../modals/error-modal/error-modal.component';
+import { BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ErrorHandlerService implements HttpInterceptor {
+  public errorMessage: string = '';
   
-  constructor(private router: Router) { }
+  constructor(private router: Router, private modal: BsModalService) { }
   
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req)
@@ -21,8 +24,11 @@ export class ErrorHandlerService implements HttpInterceptor {
     )
   }
 
-  private handleError = (error: HttpErrorResponse) : string => {
-    if(error.status === 404){
+  public handleError = (error: HttpErrorResponse) : string => {
+    if (error.status === 500) {
+      this.handle500Error(error);
+    }
+    else if(error.status === 404){
       return this.handleNotFound(error);
     }
     else if(error.status === 400){
@@ -33,7 +39,22 @@ export class ErrorHandlerService implements HttpInterceptor {
     }
     else if(error.status === 403) {
       return this.handleForbidden(error);
+    } else {
+      this.handleOtherError(error);
     }
+  }
+
+  private handleOtherError = (error: HttpErrorResponse) => {
+    this.createErrorMessage(error);
+
+    const config: ModalOptions = {
+      initialState: {
+        modalHeaderText: 'Error Message',
+        modalBodyText: this.errorMessage,
+        okButtonText: 'OK'
+      }
+    };
+    this.modal.show(ErrorModalComponent, config);
   }
 
   private handleForbidden = (error: HttpErrorResponse) => {
@@ -49,6 +70,11 @@ export class ErrorHandlerService implements HttpInterceptor {
       this.router.navigate(['/authentication/login'], { queryParams: { returnUrl: this.router.url }});
       return error.message;
     }
+  }
+
+  private handle500Error = (error: HttpErrorResponse) => {
+    this.createErrorMessage(error);
+    this.router.navigate(['/500']);
   }
 
   private handleNotFound = (error: HttpErrorResponse): string => {
@@ -71,5 +97,9 @@ export class ErrorHandlerService implements HttpInterceptor {
     else{
       return error.error ? error.error : error.message;
     }
+  }
+
+  private createErrorMessage = (error: HttpErrorResponse) => {
+    this.errorMessage = error.error ? error.error : error.statusText;
   }
 }

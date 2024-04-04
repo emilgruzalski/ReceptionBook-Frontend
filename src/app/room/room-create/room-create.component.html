@@ -1,0 +1,58 @@
+<div class="container-fluid">
+    <form [formGroup]="roomForm" autocomplete="off" novalidate (ngSubmit)="createRoom(roomForm.value)">
+      <div class="card card-body bg-light mb-2 mt-2">
+   
+        <div class="row mb-3">
+          <label for="name" class="col-form-label col-md-2">Number: </label>
+          <div class="col-md-5">
+            <input type="text" formControlName="number" id="number" class="form-control" />
+          </div>
+          <div class="col-md-5">
+            <em *ngIf="validateControl('number') 
+            && hasError('number', 'required')">Number is required</em>
+            <em *ngIf="validateControl('number') 
+            && hasError('number', 'maxlength')">Maximum allowed length is 5 characters.</em>
+          </div>
+        </div>
+   
+        <div class="mb-3 row">
+          <label for="dateOfBirth" class="col-form-label col-md-2">Type: </label>
+          <div class="col-md-5">
+            <input type="text" formControlName="type" id="type" class="form-control" />
+          </div>
+          <div class="col-md-5">
+            <em *ngIf="validateControl('type') 
+            && hasError('type', 'required')">Type is required</em>
+            <em *ngIf="validateControl('type') 
+            && hasError('type', 'maxlength')">Maximum allowed length is 20 characters.</em>
+          </div>
+        </div>
+   
+        <div class="mb-3 row">
+          <label for="address" class="col-form-label col-md-2">Price: </label>
+          <div class="col-md-5">
+            <input type="number" formControlName="price" id="price" class="form-control" />
+          </div>
+          <div class="col-md-5">
+            <em *ngIf="validateControl('price') 
+            && hasError('price', 'required')">Price is required</em>
+            <em *ngIf="validateControl('price') 
+            && hasError('price', 'min')">Price must be greater than 0</em>
+          </div>
+        </div>
+   
+        <br><br>
+   
+        <div class="mb-3 row">
+            <div class="offset-5 col-md-1">
+                <button type="submit" class="btn btn-info" [disabled]="!roomForm.valid">Save</button>
+            </div>
+            <div class="col-md-1">
+                <button type="button" class="btn btn-danger" (click)="redirectToRoomList()">Cancel</button>
+            </div>
+        </div>
+        
+      </div>
+    </form>
+  </div>
+  

@@ -27,7 +27,8 @@ export class UserDetailsComponent implements OnInit {
     .subscribe({
       next: (res: User) => this.user = res,
       error: (err) => {
-        this.errorMessage = err.message;
+        this.errorHandler.handleError(err);
+        this.errorMessage = this.errorHandler.errorMessage;
       }
     })
   }

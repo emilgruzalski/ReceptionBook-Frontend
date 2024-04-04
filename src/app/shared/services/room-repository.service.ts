@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Room } from './../../_interfaces/room.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EnvironmentUrlService } from './environment-url.service';
+import { RoomForCreation } from 'src/app/_interfaces/roomForCreation.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class RoomRepositoryService {
     return this.http.get<Room>(this.createCompleteRoute(route, this.envUrl.urlAddress));
   }
 
-  public createRoom = (route: string, room: Room) => {
+  public createRoom = (route: string, room: RoomForCreation) => {
     return this.http.post(this.createCompleteRoute(route, this.envUrl.urlAddress), room, this.generateHeaders());
   }
 
