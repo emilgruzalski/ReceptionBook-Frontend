@@ -1,0 +1,45 @@
+<div class="card card-body bg-light mb-2 mt-2">
+    <div class="row">
+      <div class="col-md-3">
+        <strong>First name:</strong>
+      </div>
+      <div class="col-md-3">
+        {{user?.firstName}}
+      </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+          <strong>Last name:</strong>
+        </div>
+        <div class="col-md-3">
+          {{user?.lastName}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <strong>Email:</strong>
+        </div>
+        <div class="col-md-3">
+          {{user?.email}}
+        </div>
+      </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-12">
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Roles</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let role of user?.roles">
+              <td>{{role}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
