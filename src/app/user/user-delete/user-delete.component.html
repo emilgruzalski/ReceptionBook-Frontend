@@ -1,1 +1,48 @@
-<p>user-delete works!</p>
+<div class="container">
+    <div class="row">
+      <div class="col-md-10 card card-body bg-light mb-2 mt-2">
+        
+        <div class="row">
+            <div class="col-md-3">
+                <label for="firstName" class="control-label">User first name:</label>
+            </div>
+            <div class="col-md-7">
+                <span name="firstName">
+                    {{user?.firstName}}
+                </span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+                <label for="lastName" class="control-label">Last name:</label>
+            </div>
+            <div class="col-md-7">
+                <span name="lastName">
+                    {{user?.lastName}}
+                </span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+                <label for="email" class="control-label">Email:</label>
+            </div>
+            <div class="col-md-7">
+                <span name="email">
+                    {{user?.email}}
+                </span>
+            </div>
+          </div>
+
+          <br>
+
+<div class="row">
+  <div class="offset-md-3 col-md-1">
+    <button type="submit" class="btn btn-info" (click)="deleteUser()">Delete</button>
+  </div>
+  <div class="col-md-1">
+    <button type="button" class="btn btn-danger" (click)="redirectToUserList()">Cancel</button>
+  </div>
+</div>
+      </div>
+    </div>
+  </div>

@@ -38,4 +38,9 @@ export class UserListComponent implements OnInit {
     const detailsUrl: string = `user/details/${id}`;
     this.router.navigate([detailsUrl])
   }
+
+  public redirectToDeletePage = (id) => { 
+    const deleteUrl: string = `/user/delete/${id}`; 
+    this.router.navigate([deleteUrl]); 
+  }
 }

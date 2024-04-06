@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EnvironmentUrlService } from './environment-url.service';
 import { User } from './../../_interfaces/user.model';
+import { UserForUpdate } from 'src/app/_interfaces/userForUpdate.model';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,7 @@ export class UserRepositoryService {
     return this.http.delete(this.createCompleteRoute(route, this.envUrl.urlAddress));
   }
 
-  public updateUser = (route: string, user: User) => {
+  public updateUser = (route: string, user: UserForUpdate) => {
     return this.http.put(this.createCompleteRoute(route, this.envUrl.urlAddress), user, this.generateHeaders());
   }
 

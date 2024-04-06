@@ -1,0 +1,74 @@
+<div class="container-fluid">
+    <form [formGroup]="customerForm" autocomplete="off" novalidate (ngSubmit)="createCustomer(customerForm.value)">
+      <div class="card card-body bg-light mb-2 mt-2">
+   
+        <div class="row mb-3">
+          <label for="firstName" class="col-form-label col-md-2">Customer first name: </label>
+          <div class="col-md-5">
+            <input type="text" formControlName="firstName" id="firstName" class="form-control" />
+          </div>
+          <div class="col-md-5">
+            <em *ngIf="validateControl('firstName') 
+            && hasError('firstName', 'required')">First name is required</em>
+            <em *ngIf="validateControl('firstName') 
+            && hasError('firstName', 'maxlength')">Maximum allowed length is 20 characters.</em>
+          </div>
+        </div>
+   
+        <div class="mb-3 row">
+          <label for="lastName" class="col-form-label col-md-2">Last name: </label>
+          <div class="col-md-5">
+            <input type="text" formControlName="lastName" id="lastName" 
+            class="form-control" />
+          </div>
+          <div class="col-md-5">
+            <em *ngIf="validateControl('lastName') 
+            && hasError('lastName', 'required')">Last name is required</em>
+            <em *ngIf="validateControl('lastName') 
+            && hasError('lastName', 'maxlength')">Maximum allowed length is 40 characters.</em>
+          </div>
+        </div>
+   
+        <div class="mb-3 row">
+          <label for="email" class="col-form-label col-md-2">Email: </label>
+          <div class="col-md-5">
+            <input type="text" formControlName="email" id="email" class="form-control" />
+          </div>
+          <div class="col-md-5">
+            <em *ngIf="validateControl('email') 
+            && hasError('email', 'required')">Email is required</em>
+            <em *ngIf="validateControl('email') 
+            && hasError('email', 'maxlength')">Maximum allowed length is 40 characters.</em>
+            <em *ngIf="validateControl('email') && hasError('email', 'email')">Please provide a valid email</em>
+          </div>
+        </div>
+
+        <div class="mb-3 row">
+            <label for="phoneNumber" class="col-form-label col-md-2">Phone number: </label>
+            <div class="col-md-5">
+              <input type="text" formControlName="phoneNumber" id="phoneNumber" class="form-control" />
+            </div>
+            <div class="col-md-5">
+              <em *ngIf="validateControl('phoneNumber') 
+              && hasError('phoneNumber', 'maxlength')">Maximum allowed length is 9 characters.</em>
+              <em *ngIf="validateControl('phoneNumber') 
+              && hasError('phoneNumber', 'minlength')">Minimum allowed length is 9 characters.</em>
+              <em *ngIf="validateControl('phoneNumber')
+              && hasError('phoneNumber', 'pattern')">Phone number must contain only digits.</em>
+            </div>
+          </div>
+   
+        <br><br>
+   
+        <div class="mb-3 row">
+            <div class="offset-5 col-md-1">
+                <button type="submit" class="btn btn-info" [disabled]="!customerForm.valid">Save</button>
+            </div>
+            <div class="col-md-1">
+                <button type="button" class="btn btn-danger" (click)="redirectToCustomerList()">Cancel</button>
+            </div>
+        </div>
+        
+      </div>
+    </form>
+  </div>

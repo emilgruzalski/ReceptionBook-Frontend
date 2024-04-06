@@ -22,7 +22,8 @@
               <td><button type="button" id="details" class="btn btn-primary"
                 (click)="getUserDetails(user.id)">Details</button></td>
               <td><button type="button" id="update" class="btn btn-success">Update</button></td>
-              <td><button type="button" id="delete" class="btn btn-danger">Delete</button></td>
+              <td><button type="button" id="delete" class="btn btn-danger"
+                (click)="redirectToDeletePage(user.id)">Delete</button></td>
             </tr>
           </tbody>
         </table>

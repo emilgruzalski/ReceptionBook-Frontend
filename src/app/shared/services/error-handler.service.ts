@@ -50,7 +50,7 @@ export class ErrorHandlerService implements HttpInterceptor {
     const config: ModalOptions = {
       initialState: {
         modalHeaderText: 'Error Message',
-        modalBodyText: this.errorMessage,
+        modalBodyText: 'An error occurred while processing your request.',
         okButtonText: 'OK'
       }
     };

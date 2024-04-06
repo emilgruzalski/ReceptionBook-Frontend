@@ -38,4 +38,14 @@ export class CustomerListComponent implements OnInit {
     this.router.navigate([detailsUrl])
   }
 
+  public redirectToDeletePage = (id) => { 
+    const deleteUrl: string = `/customer/delete/${id}`; 
+    this.router.navigate([deleteUrl]); 
+  }
+
+  public redirectToUpdatePage = (id) => { 
+    const updateUrl: string = `/customer/update/${id}`; 
+    this.router.navigate([updateUrl]); 
+  }
+
 }

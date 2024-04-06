@@ -7,7 +7,7 @@ import { AuthenticationService } from './shared/services/authentication.service'
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'ReceptionBookClient';
+  title = 'ReceptionBook';
 
   constructor(private authService: AuthenticationService){}
   

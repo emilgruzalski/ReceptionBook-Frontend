@@ -37,4 +37,9 @@ export class ReservationListComponent implements OnInit {
     const detailsUrl: string = `reservation/details/${id}`;
     this.router.navigate([detailsUrl])
   }
+
+  public redirectToDeletePage = (id) => { 
+    const deleteUrl: string = `/reservation/delete/${id}`; 
+    this.router.navigate([deleteUrl]); 
+  }
 }

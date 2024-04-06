@@ -1,1 +1,68 @@
-<p>reservation-delete works!</p>
+<div class="container">
+    <div class="row">
+      <div class="col-md-10 card card-body bg-light mb-2 mt-2">
+        
+        <div class="row">
+            <div class="col-md-3">
+                <label for="startDate" class="control-label">Reservation start date:</label>
+            </div>
+            <div class="col-md-7">
+                <span name="startDate">
+                    {{reservation?.startDate | date: 'dd/MM/yyyy'}}
+                </span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+                <label for="endDate" class="control-label">End date:</label>
+            </div>
+            <div class="col-md-7">
+                <span name="endDate">
+                    {{reservation?.endDate | date: 'dd/MM/yyyy'}}
+                </span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+                <label for="totalPrice" class="control-label">Total price:</label>
+            </div>
+            <div class="col-md-7">
+                <span name="totalPrice">
+                    {{reservation?.totalPrice}}
+                </span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+                <label for="customerName" class="control-label">Customer name:</label>
+            </div>
+            <div class="col-md-7">
+                <span name="customerName">
+                    {{reservation?.customerName}}
+                </span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+                <label for="roomNumber" class="control-label">Room number:</label>
+            </div>
+            <div class="col-md-7">
+                <span name="roomNumber">
+                    {{reservation?.roomNumber}}
+                </span>
+            </div>
+          </div>
+
+          <br>
+
+<div class="row">
+  <div class="offset-md-3 col-md-1">
+    <button type="submit" class="btn btn-info" (click)="deleteReservation()">Delete</button>
+  </div>
+  <div class="col-md-1">
+    <button type="button" class="btn btn-danger" (click)="redirectToReservationList()">Cancel</button>
+  </div>
+</div>
+      </div>
+    </div>
+  </div>
