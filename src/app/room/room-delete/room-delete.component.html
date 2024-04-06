@@ -1,0 +1,48 @@
+<div class="container">
+    <div class="row">
+      <div class="col-md-10 card card-body bg-light mb-2 mt-2">
+        
+        <div class="row">
+            <div class="col-md-3">
+                <label for="number" class="control-label">Room number:</label>
+            </div>
+            <div class="col-md-7">
+                <span name="number">
+                    {{room?.number}}
+                </span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+                <label for="type" class="control-label">Type:</label>
+            </div>
+            <div class="col-md-7">
+                <span name="type">
+                    {{room?.type}}
+                </span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+                <label for="price" class="control-label">Price:</label>
+            </div>
+            <div class="col-md-7">
+                <span name="price">
+                    {{room?.price}}
+                </span>
+            </div>
+          </div>
+
+          <br>
+
+<div class="row">
+  <div class="offset-md-3 col-md-1">
+    <button type="submit" class="btn btn-info" (click)="deleteRoom()">Delete</button>
+  </div>
+  <div class="col-md-1">
+    <button type="button" class="btn btn-danger" (click)="redirectToRoomList()">Cancel</button>
+  </div>
+</div>
+      </div>
+    </div>
+  </div>

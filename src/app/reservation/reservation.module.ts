@@ -6,13 +6,17 @@ import { ReservationListComponent } from './reservation-list/reservation-list.co
 import { ReservationDetailsComponent } from './reservation-details/reservation-details.component';
 import { ReservationCreateComponent } from './reservation-create/reservation-create.component';
 import { SharedModule } from '../shared/shared.module';
+import { ReservationUpdateComponent } from './reservation-update/reservation-update.component';
+import { ReservationDeleteComponent } from './reservation-delete/reservation-delete.component';
 
 
 @NgModule({
   declarations: [
     ReservationListComponent,
     ReservationDetailsComponent,
-    ReservationCreateComponent
+    ReservationCreateComponent,
+    ReservationUpdateComponent,
+    ReservationDeleteComponent
   ],
   imports: [
     CommonModule,

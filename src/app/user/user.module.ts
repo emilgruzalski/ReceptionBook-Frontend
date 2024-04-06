@@ -4,12 +4,16 @@ import { CommonModule } from '@angular/common';
 import { UserRoutingModule } from './user-routing.module';
 import { UserListComponent } from './user-list/user-list.component';
 import { UserDetailsComponent } from './user-details/user-details.component';
+import { UserUpdateComponent } from './user-update/user-update.component';
+import { UserDeleteComponent } from './user-delete/user-delete.component';
 
 
 @NgModule({
   declarations: [
     UserListComponent,
-    UserDetailsComponent
+    UserDetailsComponent,
+    UserUpdateComponent,
+    UserDeleteComponent
   ],
   imports: [
     CommonModule,

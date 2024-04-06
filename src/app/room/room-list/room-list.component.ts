@@ -38,4 +38,14 @@ export class RoomListComponent implements OnInit {
     this.router.navigate([detailsUrl])
   }
 
+  public redirectToUpdatePage = (id) => { 
+    const updateUrl: string = `/room/update/${id}`; 
+    this.router.navigate([updateUrl]); 
+  }
+
+  public redirectToDeletePage = (id) => { 
+    const deleteUrl: string = `/room/delete/${id}`; 
+    this.router.navigate([deleteUrl]); 
+  }
+
 }

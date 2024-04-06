@@ -7,13 +7,17 @@ import { CustomerDetailsComponent } from './customer-details/customer-details.co
 import { CustomerCreateComponent } from './customer-create/customer-create.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
+import { CustomerUpdateComponent } from './customer-update/customer-update.component';
+import { CustomerDeleteComponent } from './customer-delete/customer-delete.component';
 
 
 @NgModule({
   declarations: [
     CustomerListComponent,
     CustomerDetailsComponent,
-    CustomerCreateComponent
+    CustomerCreateComponent,
+    CustomerUpdateComponent,
+    CustomerDeleteComponent
   ],
   imports: [
     CommonModule,
