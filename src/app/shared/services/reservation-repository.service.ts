@@ -4,6 +4,8 @@ import { EnvironmentUrlService } from './environment-url.service';
 import { Reservation } from './../../_interfaces/reservation.model';
 import { ReservationForCreation } from 'src/app/_interfaces/reservationForCreation.model';
 import { ReservationForUpdate } from 'src/app/_interfaces/reservationForUpdate.model';
+import { Room } from 'src/app/_interfaces/room.model';
+import { Customer } from 'src/app/_interfaces/customer.model';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +32,14 @@ export class ReservationRepositoryService {
 
   public deleteReservation = (route: string) => {
     return this.http.delete(this.createCompleteRoute(route, this.envUrl.urlAddress));
+  }
+
+  public getAvailableRooms = (route: string) => {
+    return this.http.get<Room[]>(this.createCompleteRoute(route, this.envUrl.urlAddress));
+  }
+
+  public getCustomers = (route: string) => {
+    return this.http.get<Customer[]>(this.createCompleteRoute(route, this.envUrl.urlAddress));
   }
 
   private createCompleteRoute = (route: string, envAddress: string) => {

@@ -8,6 +8,8 @@ import { ReservationCreateComponent } from './reservation-create/reservation-cre
 import { SharedModule } from '../shared/shared.module';
 import { ReservationUpdateComponent } from './reservation-update/reservation-update.component';
 import { ReservationDeleteComponent } from './reservation-delete/reservation-delete.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 
 @NgModule({
@@ -21,7 +23,9 @@ import { ReservationDeleteComponent } from './reservation-delete/reservation-del
   imports: [
     CommonModule,
     ReservationRoutingModule,
-    SharedModule
+    SharedModule,
+    ReactiveFormsModule,
+    BsDatepickerModule.forRoot()
   ]
 })
 export class ReservationModule { }
