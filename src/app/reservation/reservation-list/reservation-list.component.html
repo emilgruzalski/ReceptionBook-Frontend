@@ -26,7 +26,8 @@
               <td>{{reservation.roomNumber}}</td>
               <td><button type="button" id="details" class="btn btn-primary"
                 (click)="getReservationDetails(reservation.id)">Details</button></td>
-              <td><button type="button" id="update" class="btn btn-success">Update</button></td>
+              <td><button type="button" id="update" class="btn btn-success"
+                (click)="redirectToUpdatePage(reservation.id)">Update</button></td>
               <td><button type="button" id="delete" class="btn btn-danger"
                 (click)="redirectToDeletePage(reservation.id)">Delete</button></td>
             </tr>

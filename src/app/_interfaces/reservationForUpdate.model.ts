@@ -1,6 +1,6 @@
 export interface ReservationForUpdate {
-    startDate: Date;
-    endDate: Date;
+    startDate: string;
+    endDate: string;
     totalPrice: number;
     customerId: string;
     roomId: string;
