@@ -41,10 +41,16 @@ export class ReservationCreateComponent implements OnInit {
 
     this.reservationForm.get('startDate').valueChanges.subscribe(() => {
       this.loadAvailable();
+      this.loadPrice();
     });
 
     this.reservationForm.get('endDate').valueChanges.subscribe(() => {
       this.loadAvailable();
+      this.loadPrice();
+    });
+
+    this.reservationForm.get('roomId').valueChanges.subscribe(() => {
+      this.loadPrice();
     });
   }
 
@@ -121,5 +127,13 @@ export class ReservationCreateComponent implements OnInit {
     }, error => {
       console.error('Błąd podczas ładowania dostępnych opcji', error);
     });
+  }
+
+  public loadPrice() {
+    const startDate = this.reservationForm.get('startDate').value;
+    const endDate = this.reservationForm.get('endDate').value;
+    const roomPrice = this.rooms.find(x => x.id === this.reservationForm.get('roomId').value).price;
+    const totalPrice = (new Date(endDate).getTime() - new Date(startDate).getTime()) / (1000 * 60 * 60 * 24) * roomPrice;
+    this.reservationForm.get('totalPrice').setValue(totalPrice);
   }
 }
