@@ -1,36 +1,35 @@
 <div class="container-fluid">
     <form [formGroup]="reservationForm" autocomplete="off" novalidate (ngSubmit)="updateReservation(reservationForm.value)">
       <div class="card card-body bg-light mb-2 mt-2">
-   
+
         <div class="row mb-3">
           <label for="startDate" class="col-form-label col-md-2">Start date: </label>
           <div class="col-md-5">
             <input type="text" formControlName="startDate" id="startDate" class="form-control" readonly bsDatepicker/>
           </div>
           <div class="col-md-5">
-            <em *ngIf="validateControl('startDate') 
+            <em *ngIf="validateControl('startDate')
             && hasError('startDate', 'required')">Start date is required</em>
           </div>
         </div>
-   
+
         <div class="mb-3 row">
           <label for="endDate" class="col-form-label col-md-2">End date: </label>
           <div class="col-md-5">
-            <input type="text" formControlName="endDate" id="endDate" 
+            <input type="text" formControlName="endDate" id="endDate"
             class="form-control" readonly bsDatepicker/>
           </div>
           <div class="col-md-5">
-            <em *ngIf="validateControl('endDate') 
+            <em *ngIf="validateControl('endDate')
             && hasError('endDate', 'required')">End date is required</em>
           </div>
         </div>
-   
+
         <div class="mb-3 row">
           <label for="roomId" class="col-form-label col-md-2">Room id: </label>
           <div class="col-md-5">
             <select formControlName="roomId" id="roomId" class="form-control">
               <option *ngFor="let room of rooms" [value]="room.id">
-                {{room.id}}
                 {{room.number}}
                 {{room.type}}
                 {{room.price}}
@@ -38,7 +37,7 @@
             </select>
           </div>
           <div class="col-md-5">
-            <em *ngIf="validateControl('roomId') 
+            <em *ngIf="validateControl('roomId')
             && hasError('roomId', 'required')">Room id is required</em>
           </div>
         </div>
@@ -48,7 +47,6 @@
             <div class="col-md-5">
                 <select formControlName="customerId" id="customerId" class="form-control">
                     <option *ngFor="let customer of customers" [value]="customer.id">
-                      {{customer.id}}
                       {{customer.firstName}}
                       {{customer.lastName}}
                       {{customer.email}}
@@ -57,7 +55,7 @@
                   </select>
             </div>
             <div class="col-md-5">
-              <em *ngIf="validateControl('customerId') 
+              <em *ngIf="validateControl('customerId')
               && hasError('customerId', 'required')">Customer id is required</em>
             </div>
           </div>
@@ -68,15 +66,30 @@
               <input type="number" formControlName="totalPrice" id="totalPrice" class="form-control" />
             </div>
             <div class="col-md-5">
-              <em *ngIf="validateControl('totalPrice') 
+              <em *ngIf="validateControl('totalPrice')
               && hasError('totalPrice', 'required')">Address is required</em>
-              <em *ngIf="validateControl('totalPrice') 
+              <em *ngIf="validateControl('totalPrice')
               && hasError('totalPrice', 'min')">Price must be greater than 0</em>
             </div>
           </div>
-   
+
+          <div class="mb-3 row">
+            <label for="status" class="col-form-label col-md-2">Role: </label>
+            <div class="col-md-5">
+              <select formControlName="status" id="status" class="form-control">
+                <option *ngFor="let status of statuses">
+                  {{status}}
+              </option>
+              </select>
+            </div>
+            <div class="col-md-5">
+              <em *ngIf="validateControl('status')
+              && hasError('status', 'required')">Room id is required</em>
+            </div>
+          </div>
+
         <br><br>
-   
+
         <div class="mb-3 row">
             <div class="offset-5 col-md-1">
                 <button type="submit" class="btn btn-info" [disabled]="!reservationForm.valid">Save</button>
@@ -85,7 +98,7 @@
                 <button type="button" class="btn btn-danger" (click)="redirectToReservationList()">Cancel</button>
             </div>
         </div>
-        
+
       </div>
     </form>
   </div>

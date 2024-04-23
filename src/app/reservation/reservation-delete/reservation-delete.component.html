@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row">
       <div class="col-md-10 card card-body bg-light mb-2 mt-2">
-        
+
         <div class="row">
             <div class="col-md-3">
                 <label for="startDate" class="control-label">Reservation start date:</label>
@@ -38,7 +38,7 @@
             </div>
             <div class="col-md-7">
                 <span name="customerName">
-                    {{reservation?.customerName}}
+                    {{reservation?.customer?.firstName + ' ' + reservation?.customer?.lastName}}
                 </span>
             </div>
           </div>
@@ -48,7 +48,7 @@
             </div>
             <div class="col-md-7">
                 <span name="roomNumber">
-                    {{reservation?.roomNumber}}
+                    {{reservation?.room?.number}}
                 </span>
             </div>
           </div>

@@ -6,6 +6,7 @@ export interface Reservation{
     startDate: Date;
     endDate: Date;
     totalPrice: number;
+    status: string;
     customerName: string;
     roomNumber: string;
 

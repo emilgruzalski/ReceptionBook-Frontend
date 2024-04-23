@@ -23,8 +23,9 @@ export class ReservationUpdateComponent implements OnInit {
   bsModalRef?: BsModalRef;
   rooms: Room[] = [];
   customers: Customer[] = [];
+  statuses: string[] = [];
 
-  constructor(private repository: ReservationRepositoryService, private errorHandler: ErrorHandlerService, 
+  constructor(private repository: ReservationRepositoryService, private errorHandler: ErrorHandlerService,
     private router: Router, private activeRoute: ActivatedRoute, private datePipe: DatePipe,
     private modal: BsModalService) { }
 
@@ -34,8 +35,11 @@ export class ReservationUpdateComponent implements OnInit {
       endDate: new FormControl('', [Validators.required]),
       roomId: new FormControl('', [Validators.required]),
       customerId: new FormControl('', [Validators.required]),
-      totalPrice: new FormControl('', [Validators.required, Validators.min(1)])
+      totalPrice: new FormControl('', [Validators.required, Validators.min(1)]),
+      status: new FormControl('', [Validators.required])
     });
+
+    this.loadStatuses();
 
     this.getReservationById();
 
@@ -56,6 +60,10 @@ export class ReservationUpdateComponent implements OnInit {
     });
   }
 
+  private loadStatuses = () => {
+    this.statuses = ['Confirmed', 'Cancelled'];
+  }
+
   private getReservationById = () => {
     const id: string = this.activeRoute.snapshot.params['id'];
     const reservationByIdUrl: string = `api/reservations/${id}`;
@@ -68,7 +76,7 @@ export class ReservationUpdateComponent implements OnInit {
           endDate: new Date(this.datePipe.transform(res.endDate, 'MM/dd/yyyy')),
           customer: res.customer,
           room: res.room
-        }; 
+        };
         this.reservationForm.patchValue({ ...this.reservation, customerId: res.customer.id, roomId: res.room.id });
       },
       error: (err: HttpErrorResponse) => {
@@ -103,7 +111,8 @@ export class ReservationUpdateComponent implements OnInit {
       endDate: this.datePipe.transform(reservationFormValue.endDate, 'yyyy-MM-dd'),
       roomId: reservationFormValue.roomId,
       customerId: reservationFormValue.customerId,
-      totalPrice: reservationFormValue.totalPrice
+      totalPrice: reservationFormValue.totalPrice,
+      status: reservationFormValue.status
     };
 
     const apiUrl = `api/reservations/${id}`;
@@ -133,7 +142,7 @@ export class ReservationUpdateComponent implements OnInit {
     if (startDate && endDate) {
       const apiUrl = `api/rooms/available/${id}?StartDate=${this.datePipe.transform(startDate, 'yyyy-MM-dd')}&EndDate=${this.datePipe.transform(endDate, 'yyyy-MM-dd')}`;
       this.repository.getAvailableRooms(apiUrl).subscribe(data => {
-        this.rooms = data; 
+        this.rooms = data;
       }, error => {
         console.error('Błąd podczas ładowania dostępnych opcji', error);
       });
@@ -143,7 +152,7 @@ export class ReservationUpdateComponent implements OnInit {
   public loadCustomer() {
     const apiUrl = 'api/customers';
     this.repository.getCustomers(apiUrl).subscribe(data => {
-      this.customers = data; 
+      this.customers = data;
     }, error => {
       console.error('Błąd podczas ładowania dostępnych opcji', error);
     });

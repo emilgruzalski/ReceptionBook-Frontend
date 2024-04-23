@@ -10,6 +10,7 @@
               <th>Start date</th>
               <th>End date</th>
               <th>Total price</th>
+              <th>Status</th>
               <th>Customer name</th>
               <th>Room number</th>
               <th>Details</th>
@@ -22,6 +23,7 @@
               <td>{{reservation.startDate | date: 'dd/MM/yyyy'}}</td>
               <td>{{reservation.endDate | date: 'dd/MM/yyyy'}}</td>
               <td>{{reservation.totalPrice}}</td>
+              <td>{{reservation.status}}</td>
               <td>{{reservation.customerName}}</td>
               <td>{{reservation.roomNumber}}</td>
               <td><button type="button" id="details" class="btn btn-primary"

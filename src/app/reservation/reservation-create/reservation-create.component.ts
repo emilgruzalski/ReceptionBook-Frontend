@@ -79,7 +79,8 @@ export class ReservationCreateComponent implements OnInit {
       endDate: this.datePipe.transform(reservationFormValue.endDate, 'yyyy-MM-dd'),
       roomId: reservationFormValue.roomId,
       customerId: reservationFormValue.customerId,
-      totalPrice: reservationFormValue.totalPrice
+      totalPrice: reservationFormValue.totalPrice,
+      status: "Confirmed"
     };
 
     const apiUrl = 'api/reservations';
@@ -113,7 +114,7 @@ export class ReservationCreateComponent implements OnInit {
     if (startDate && endDate) {
       const apiUrl = `api/rooms/available?StartDate=${this.datePipe.transform(startDate, 'yyyy-MM-dd')}&EndDate=${this.datePipe.transform(endDate, 'yyyy-MM-dd')}`;
       this.repository.getAvailableRooms(apiUrl).subscribe(data => {
-        this.rooms = data; 
+        this.rooms = data;
       }, error => {
         console.error('Błąd podczas ładowania dostępnych opcji', error);
       });
@@ -123,7 +124,7 @@ export class ReservationCreateComponent implements OnInit {
   public loadCustomer() {
     const apiUrl = 'api/customers';
     this.repository.getCustomers(apiUrl).subscribe(data => {
-      this.customers = data; 
+      this.customers = data;
     }, error => {
       console.error('Błąd podczas ładowania dostępnych opcji', error);
     });

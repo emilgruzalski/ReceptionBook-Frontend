@@ -11,9 +11,9 @@ import { BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 })
 export class ErrorHandlerService implements HttpInterceptor {
   public errorMessage: string = '';
-  
+
   constructor(private router: Router, private modal: BsModalService) { }
-  
+
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req)
     .pipe(
@@ -50,7 +50,7 @@ export class ErrorHandlerService implements HttpInterceptor {
     const config: ModalOptions = {
       initialState: {
         modalHeaderText: 'Error Message',
-        modalBodyText: 'An error occurred while processing your request.',
+        modalBodyText: this.errorMessage,
         okButtonText: 'OK'
       }
     };
@@ -81,7 +81,7 @@ export class ErrorHandlerService implements HttpInterceptor {
     this.router.navigate(['/404']);
     return error.message;
   }
-  
+
   private handleBadRequest = (error: HttpErrorResponse): string => {
     if(this.router.url === '/authentication/register' ||
        this.router.url.startsWith('/authentication/resetpassword')){
@@ -91,7 +91,7 @@ export class ErrorHandlerService implements HttpInterceptor {
       values.map((m: string) => {
          message += m + '<br>';
       })
-      
+
       return message.slice(0, -4);
     }
     else{
