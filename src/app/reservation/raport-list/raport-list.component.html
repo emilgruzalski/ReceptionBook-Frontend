@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Year</th>
+            <th>Month</th>
+            <th>Total price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let raport of raports">
+            <td>{{raport.year}}</td>
+            <td>{{raport.month}}</td>
+            <td>{{raport.totalPrice}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

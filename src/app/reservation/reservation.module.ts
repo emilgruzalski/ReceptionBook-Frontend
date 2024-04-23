@@ -10,6 +10,7 @@ import { ReservationUpdateComponent } from './reservation-update/reservation-upd
 import { ReservationDeleteComponent } from './reservation-delete/reservation-delete.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { RaportListComponent } from './raport-list/raport-list.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     ReservationDetailsComponent,
     ReservationCreateComponent,
     ReservationUpdateComponent,
-    ReservationDeleteComponent
+    ReservationDeleteComponent,
+    RaportListComponent
   ],
   imports: [
     CommonModule,

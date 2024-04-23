@@ -6,6 +6,7 @@ import { ReservationForCreation } from 'src/app/_interfaces/reservationForCreati
 import { ReservationForUpdate } from 'src/app/_interfaces/reservationForUpdate.model';
 import { Room } from 'src/app/_interfaces/room.model';
 import { Customer } from 'src/app/_interfaces/customer.model';
+import { Raport } from 'src/app/_interfaces/raport.model';
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +41,10 @@ export class ReservationRepositoryService {
 
   public getCustomers = (route: string) => {
     return this.http.get<Customer[]>(this.createCompleteRoute(route, this.envUrl.urlAddress));
+  }
+
+  public getRaports = (route: string) => {
+    return this.http.get<Raport[]>(this.createCompleteRoute(route, this.envUrl.urlAddress));
   }
 
   private createCompleteRoute = (route: string, envAddress: string) => {
