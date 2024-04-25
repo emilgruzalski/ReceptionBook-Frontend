@@ -15,7 +15,7 @@ export class RoomListComponent implements OnInit {
   rooms: Room[];
   errorMessage: string = '';
 
-  constructor(private repository: RoomRepositoryService, private errorHandler: ErrorHandlerService, private router: Router) { }
+  constructor(private repository: RoomRepositoryService, private errorHandler: ErrorHandlerService, public router: Router) { }
 
   ngOnInit(): void {
     this.getAllRooms();
@@ -38,14 +38,14 @@ export class RoomListComponent implements OnInit {
     this.router.navigate([detailsUrl])
   }
 
-  public redirectToUpdatePage = (id) => { 
-    const updateUrl: string = `/room/update/${id}`; 
-    this.router.navigate([updateUrl]); 
+  public redirectToUpdatePage = (id) => {
+    const updateUrl: string = `/room/update/${id}`;
+    this.router.navigate([updateUrl]);
   }
 
-  public redirectToDeletePage = (id) => { 
-    const deleteUrl: string = `/room/delete/${id}`; 
-    this.router.navigate([deleteUrl]); 
+  public redirectToDeletePage = (id) => {
+    const deleteUrl: string = `/room/delete/${id}`;
+    this.router.navigate([deleteUrl]);
   }
 
 }

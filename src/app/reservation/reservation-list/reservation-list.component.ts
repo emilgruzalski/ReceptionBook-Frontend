@@ -15,7 +15,7 @@ export class ReservationListComponent implements OnInit {
   reservations: Reservation[];
   errorMessage: string = '';
 
-  constructor(private repository: ReservationRepositoryService, private errorHandler: ErrorHandlerService, private router: Router) { }
+  constructor(private repository: ReservationRepositoryService, private errorHandler: ErrorHandlerService, public router: Router) { }
 
   ngOnInit(): void {
     this.getAllReservations();
@@ -38,9 +38,9 @@ export class ReservationListComponent implements OnInit {
     this.router.navigate([detailsUrl])
   }
 
-  public redirectToDeletePage = (id) => { 
-    const deleteUrl: string = `/reservation/delete/${id}`; 
-    this.router.navigate([deleteUrl]); 
+  public redirectToDeletePage = (id) => {
+    const deleteUrl: string = `/reservation/delete/${id}`;
+    this.router.navigate([deleteUrl]);
   }
 
   public redirectToUpdatePage = (id) => {

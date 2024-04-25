@@ -1,6 +1,8 @@
-<div class="row">
-    <div class="offset-10 col-md-2 mt-2"> <a [routerLink]="['/customer/create']">Create customer</a> </div>
-  </div> <br>
+<div class="row justify-content-end mt-2">
+  <div class="col-auto">
+      <button type="button" class="btn btn-success" (click)="router.navigate(['/customer/create'])">Create Customer</button>
+  </div>
+  <br>
   <div class="row">
     <div class="col-md-12">
       <div class="table-responsive">

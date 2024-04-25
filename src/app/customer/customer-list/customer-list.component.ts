@@ -15,7 +15,7 @@ export class CustomerListComponent implements OnInit {
   customers: Customer[];
   errorMessage: string = '';
 
-  constructor(private repository: CustomerRepositoryService, private errorHandler: ErrorHandlerService, private router: Router) { }
+  constructor(private repository: CustomerRepositoryService, private errorHandler: ErrorHandlerService, public router: Router) { }
 
   ngOnInit(): void {
     this.getAllCustomers();
@@ -38,14 +38,14 @@ export class CustomerListComponent implements OnInit {
     this.router.navigate([detailsUrl])
   }
 
-  public redirectToDeletePage = (id) => { 
-    const deleteUrl: string = `/customer/delete/${id}`; 
-    this.router.navigate([deleteUrl]); 
+  public redirectToDeletePage = (id) => {
+    const deleteUrl: string = `/customer/delete/${id}`;
+    this.router.navigate([deleteUrl]);
   }
 
-  public redirectToUpdatePage = (id) => { 
-    const updateUrl: string = `/customer/update/${id}`; 
-    this.router.navigate([updateUrl]); 
+  public redirectToUpdatePage = (id) => {
+    const updateUrl: string = `/customer/update/${id}`;
+    this.router.navigate([updateUrl]);
   }
 
 }
