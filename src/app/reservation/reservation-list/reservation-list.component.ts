@@ -29,12 +29,8 @@ export class ReservationListComponent implements OnInit {
     this.repository.getReservations(apiAddress)
     .subscribe({
       next: (res) => {
-        //console.log(res);
         this.reservations = res.body;
         this.paginationInfo = JSON.parse(res.headers.get('x-pagination'));
-        console.log(this.paginationInfo);
-        console.log(this.paginationInfo.HasNext);
-        console.log(this.paginationInfo.HasPrevious);
       },
       error: (err: HttpErrorResponse) => {
         this.errorHandler.handleError(err);
