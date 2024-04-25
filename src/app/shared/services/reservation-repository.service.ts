@@ -7,6 +7,7 @@ import { ReservationForUpdate } from 'src/app/_interfaces/reservationForUpdate.m
 import { Room } from 'src/app/_interfaces/room.model';
 import { Customer } from 'src/app/_interfaces/customer.model';
 import { Raport } from 'src/app/_interfaces/raport.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,9 @@ export class ReservationRepositoryService {
   constructor(private http: HttpClient, private envUrl: EnvironmentUrlService) { }
 
   public getReservations = (route: string) => {
-    return this.http.get<Reservation[]>(this.createCompleteRoute(route, this.envUrl.urlAddress));
+    const httpOptions = { headers: new HttpHeaders({'x-pagination': 'application/json'}),
+    observe: 'response' as 'response'};
+    return this.http.get<Reservation[]>(this.createCompleteRoute(route, this.envUrl.urlAddress), httpOptions);
   }
 
   public getReservation = (route: string) => {

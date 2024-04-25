@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Reservation } from './../../_interfaces/reservation.model';
 import { ReservationRepositoryService } from './../../shared/services/reservation-repository.service';
 import { ErrorHandlerService } from './../../shared/services/error-handler.service';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 @Component({
@@ -14,6 +14,9 @@ import { Router } from '@angular/router';
 export class ReservationListComponent implements OnInit {
   reservations: Reservation[];
   errorMessage: string = '';
+  paginationInfo: any;
+  currentPage: number = 1;
+  pageSize: number = 5;
 
   constructor(private repository: ReservationRepositoryService, private errorHandler: ErrorHandlerService, public router: Router) { }
 
@@ -22,10 +25,17 @@ export class ReservationListComponent implements OnInit {
   }
 
   private getAllReservations = () => {
-    const apiAddress: string = 'api/reservations';
+    const apiAddress: string = `api/reservations?PageNumber=${this.currentPage}&PageSize=${this.pageSize}`;
     this.repository.getReservations(apiAddress)
     .subscribe({
-      next: (res: Reservation[]) => this.reservations = res,
+      next: (res) => {
+        //console.log(res);
+        this.reservations = res.body;
+        this.paginationInfo = JSON.parse(res.headers.get('x-pagination'));
+        console.log(this.paginationInfo);
+        console.log(this.paginationInfo.HasNext);
+        console.log(this.paginationInfo.HasPrevious);
+      },
       error: (err: HttpErrorResponse) => {
         this.errorHandler.handleError(err);
         this.errorMessage = this.errorHandler.errorMessage;
@@ -46,5 +56,24 @@ export class ReservationListComponent implements OnInit {
   public redirectToUpdatePage = (id) => {
     const updateUrl: string = `/reservation/update/${id}`;
     this.router.navigate([updateUrl]);
+  }
+
+  public changePage(newPage: number): void {
+    this.currentPage = newPage;
+    this.getAllReservations();
+  }
+
+  public nextPage(): void {
+    if (this.paginationInfo.HasNext) {
+      this.currentPage++;
+      this.getAllReservations();
+    }
+  }
+
+  public previousPage(): void {
+    if (this.paginationInfo.HasPrevious) {
+      this.currentPage--;
+      this.getAllReservations();
+    }
   }
 }
