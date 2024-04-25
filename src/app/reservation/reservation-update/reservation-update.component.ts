@@ -24,7 +24,7 @@ export class ReservationUpdateComponent implements OnInit {
   rooms: Room[] = [];
   customers: Customer[] = [];
   statuses: string[] = [];
-  error: string = '';
+
 
   constructor(private repository: ReservationRepositoryService, private errorHandler: ErrorHandlerService,
     private router: Router, private activeRoute: ActivatedRoute, private datePipe: DatePipe,
@@ -131,7 +131,6 @@ export class ReservationUpdateComponent implements OnInit {
           this.bsModalRef.content.redirectOnOk.subscribe(_ => this.redirectToReservationList());
         },
         error: (error: HttpErrorResponse) => {
-          console.log(JSON.stringify(error));
           this.errorHandler.handleError(error);
         }
       });

@@ -18,15 +18,14 @@ export class ErrorHandlerService implements HttpInterceptor {
     return next.handle(req)
     .pipe(
       catchError((error: HttpErrorResponse) => {
-        console.log(error);
         let errorMessage = this.handleError(error);
-        //let errorMessage = error.message;
         return throwError(() => new Error(errorMessage));
       })
     )
   }
 
-  public handleError = (error: HttpErrorResponse) : string => {
+  public handleError = (error: HttpErrorResponse) => {
+    console.log("Handling Error:", error);
     if (error.status === 500) {
       this.handle500Error(error);
     }
@@ -47,12 +46,12 @@ export class ErrorHandlerService implements HttpInterceptor {
   }
 
   private handleOtherError = (error: HttpErrorResponse) => {
-    this.createErrorMessage(error);
+    console.log("ErrorMessage to Modal:", error);  // Loguje wiadomość błędu przekazywaną do modalu
 
     const config: ModalOptions = {
       initialState: {
         modalHeaderText: 'Error Message',
-        modalBodyText: this.errorMessage,
+        modalBodyText: error.message,
         okButtonText: 'OK'
       }
     };
@@ -84,24 +83,46 @@ export class ErrorHandlerService implements HttpInterceptor {
     return error.message;
   }
 
-  private handleBadRequest = (error: HttpErrorResponse): string => {
+  private handleBadRequest = (error: HttpErrorResponse) => {
     if(this.router.url === '/authentication/register' ||
        this.router.url.startsWith('/authentication/resetpassword')){
-      let message = '';
-      const values = Object.values(error.error.errors);
-
-      values.map((m: string) => {
-         message += m + '<br>';
-      })
-
-      return message.slice(0, -4);
+        let message = '';
+        if (error.error.errors) {
+            const values = Object.values(error.error.errors);
+            values.map((m: string) => {
+                message += m + '<br>';
+            });
+            return message.slice(0, -4); // Usuwa ostatni '<br>'
+        }
+        return 'Nieokreślony błąd, proszę spróbować później.'; // Dodaj domyślny komunikat, jeśli nie ma szczegółów błędu
+    } else {
+        // Pobierz 'Message' bezpośrednio z error.error, jeśli istnieje
+        return error.error.Message || 'Nieznany błąd, proszę spróbować później.'; // Dodaj bezpiecznik dla pustego Message
     }
-    else{
-      return error.error ? error.error : error.message;
-    }
-  }
+}
 
   private createErrorMessage = (error: HttpErrorResponse) => {
-    this.errorMessage = error.error ? error.error : error.statusText;
-  }
+    // Sprawdzenie, czy obiekt błędu zawiera właściwość 'error', która jest obiektem
+    if (error.error && typeof error.error === 'object') {
+        // Sprawdzenie, czy obiekt 'error.error' zawiera 'Message'
+        if ('Message' in error.error) {
+            this.errorMessage = error.error.Message;
+        } else {
+            // Użycie JSON.stringify, aby sformatować obiekt
+            this.errorMessage = JSON.stringify(error.error, null, 2);
+        }
+    } else if (typeof error.error === 'string') {
+        // Jeśli error.error jest stringiem, bezpośrednio użyj tego jako wiadomość
+        this.errorMessage = error.error;
+    } else if (error.message) {
+        // Użycie ogólnej wiadomości błędu z obiektu HttpErrorResponse
+        this.errorMessage = error.message;
+    } else {
+        // Ustawienie domyślnego komunikatu
+        this.errorMessage = 'Wystąpił nieoczekiwany błąd. Spróbuj ponownie później.';
+    }
+}
+
+
+
 }
