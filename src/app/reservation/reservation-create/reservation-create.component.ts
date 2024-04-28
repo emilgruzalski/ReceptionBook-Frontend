@@ -35,6 +35,7 @@ export class ReservationCreateComponent implements OnInit {
       endDate: new FormControl('', [Validators.required]),
       roomType: new FormControl(this.types[0], [Validators.required]),
       roomId: new FormControl('', [Validators.required]),
+      customerName: new FormControl(''),
       customerId: new FormControl('', [Validators.required]),
       totalPrice: new FormControl('', [Validators.required, Validators.min(1)])
     });
@@ -59,7 +60,11 @@ export class ReservationCreateComponent implements OnInit {
       this.loadTypes();
     });
 
-    this.reservationForm.get('roomType').setValue(this.types[0]);
+    this.reservationForm.get('customerName').valueChanges.subscribe(() => {
+      this.loadCustomer();
+    });
+
+    //this.reservationForm.get('roomType').setValue(this.types[0]);
   }
 
   validateControl = (controlName: string) => {
@@ -158,13 +163,23 @@ export class ReservationCreateComponent implements OnInit {
   
 
   public loadCustomer() {
-    const apiUrl = 'api/customers';
+    let apiUrl = 'api/customers';
+  
+    // Check if the customerName field has a value and adjust apiUrl accordingly
+    const customerName = this.reservationForm.get('customerName').value;
+    if (customerName !== '') {
+      apiUrl += `?SearchTerm=${encodeURIComponent(customerName)}`; // Use encodeURIComponent for safe URL formatting
+    }
+  
+    // Retrieve customers using the constructed apiUrl
     this.repository.getCustomers(apiUrl).subscribe(data => {
       this.customers = data;
+      this.reservationForm.get('customerId').setValue(this.customers[0].id);
     }, error => {
-      console.error('Błąd podczas ładowania dostępnych opcji', error);
+      console.error('Error while loading customers', error);
     });
   }
+  
 
   public loadPrice() {
     const startDate = this.reservationForm.get('startDate').value;
