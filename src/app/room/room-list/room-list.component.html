@@ -31,6 +31,17 @@
             </tr>
           </tbody>
         </table>
+        <nav aria-label="Page navigation" style="text-align: center; display: flex; justify-content: center;">
+          <ul class="pagination" style="display: flex; list-style: none; padding: 0;">
+            <li class="page-item" [class.disabled]="!paginationInfo?.HasPrevious">
+              <a class="page-link" (click)="previousPage()">Previous</a>
+            </li>
+            <a style="margin-right: 5px; margin-left: 5px; margin-top: auto; margin-bottom: auto;"> {{paginationInfo?.CurrentPage}} / {{paginationInfo?.TotalPages}} </a>
+            <li class="page-item" [class.disabled]="!paginationInfo?.HasNext">
+              <a class="page-link" (click)="nextPage()">Next</a>
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
   </div>

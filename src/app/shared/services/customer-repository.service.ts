@@ -13,7 +13,9 @@ export class CustomerRepositoryService {
   constructor(private http: HttpClient, private envUrl: EnvironmentUrlService) { }
 
   public getCustomers = (route: string) => {
-    return this.http.get<Customer[]>(this.createCompleteRoute(route, this.envUrl.urlAddress));
+    const httpOptions = { headers: new HttpHeaders({'x-pagination': 'application/json'}),
+    observe: 'response' as 'response'};
+    return this.http.get<Customer[]>(this.createCompleteRoute(route, this.envUrl.urlAddress), httpOptions);
   }
 
   public getCustomer = (route: string) => {

@@ -14,6 +14,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class CustomerListComponent implements OnInit {
   customers: Customer[];
   errorMessage: string = '';
+  paginationInfo: any;
+  currentPage: number = 1;
+  pageSize: number = 10;
 
   constructor(private repository: CustomerRepositoryService, private errorHandler: ErrorHandlerService, public router: Router) { }
 
@@ -22,10 +25,14 @@ export class CustomerListComponent implements OnInit {
   }
 
   private getAllCustomers = () => {
-    const apiAddress: string = 'api/customers';
+    const apiAddress: string = `api/customers?PageNumber=${this.currentPage}&PageSize=${this.pageSize}`;
     this.repository.getCustomers(apiAddress)
     .subscribe({
-      next: (res: Customer[]) => this.customers = res,
+      next: (res) =>
+        {
+           this.customers = res.body;
+            this.paginationInfo = JSON.parse(res.headers.get('x-pagination'));
+        },
       error: (err: HttpErrorResponse) => {
         this.errorHandler.handleError(err);
         this.errorMessage = this.errorHandler.errorMessage;
@@ -46,6 +53,25 @@ export class CustomerListComponent implements OnInit {
   public redirectToUpdatePage = (id) => {
     const updateUrl: string = `/customer/update/${id}`;
     this.router.navigate([updateUrl]);
+  }
+
+  public changePage(newPage: number): void {
+    this.currentPage = newPage;
+    this.getAllCustomers();
+  }
+
+  public nextPage(): void {
+    if (this.paginationInfo.HasNext) {
+      this.currentPage++;
+      this.getAllCustomers();
+    }
+  }
+
+  public previousPage(): void {
+    if (this.paginationInfo.HasPrevious) {
+      this.currentPage--;
+      this.getAllCustomers();
+    }
   }
 
 }

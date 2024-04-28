@@ -18,6 +18,7 @@ export class RoomUpdateComponent implements OnInit {
   room: Room;
   roomForm: FormGroup;
   bsModalRef?:BsModalRef;
+  types = ['Single', 'Double', 'President Suite', 'Double with Children', 'Family'];
 
   constructor(private repository: RoomRepositoryService, private errorHandler: ErrorHandlerService, 
     private router: Router, private activeRoute: ActivatedRoute, private modal: BsModalService) { }

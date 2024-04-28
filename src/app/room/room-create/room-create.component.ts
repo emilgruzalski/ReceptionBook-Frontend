@@ -18,6 +18,7 @@ export class RoomCreateComponent implements OnInit {
   errorMessage: string = '';
   roomForm: FormGroup;
   bsModalRef?: BsModalRef;
+  types = ['Single', 'Double', 'President Suite', 'Double with Children', 'Family'];
 
   constructor(private repository: RoomRepositoryService, private errorHandler: ErrorHandlerService,
     private router: Router, private modal: BsModalService) { }

@@ -12,7 +12,9 @@ export class UserRepositoryService {
   constructor(private http: HttpClient, private envUrl: EnvironmentUrlService) { }
 
   public getUsers = (route: string) => {
-    return this.http.get<User[]>(this.createCompleteRoute(route, this.envUrl.urlAddress));
+    const httpOptions = { headers: new HttpHeaders({'x-pagination': 'application/json'}),
+    observe: 'response' as 'response'};
+    return this.http.get<User[]>(this.createCompleteRoute(route, this.envUrl.urlAddress), httpOptions);
   }
 
   public getUser = (route: string) => {

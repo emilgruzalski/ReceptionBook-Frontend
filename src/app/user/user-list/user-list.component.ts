@@ -14,6 +14,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class UserListComponent implements OnInit {
   users: User[];
   errorMessage: string = '';
+  paginationInfo: any;
+  currentPage: number = 1;
+  pageSize: number = 10;
 
   constructor(private repository: UserRepositoryService, private errorHandler: ErrorHandlerService,
     private router: Router) { }
@@ -23,10 +26,14 @@ export class UserListComponent implements OnInit {
   }
 
   private getAllUsers = () => {
-    const apiAddress: string = 'api/users';
+    const apiAddress: string = `api/users?PageNumber=${this.currentPage}&PageSize=${this.pageSize}`;
     this.repository.getUsers(apiAddress)
     .subscribe({
-      next: (res: User[]) => this.users = res,
+      next: (res) => 
+        {
+          this.users = res.body;
+          this.paginationInfo = JSON.parse(res.headers.get('x-pagination'));
+      },
       error: (err: HttpErrorResponse) => {
         this.errorHandler.handleError(err);
         this.errorMessage = this.errorHandler.errorMessage;
@@ -47,5 +54,24 @@ export class UserListComponent implements OnInit {
   public redirectToUpdatePage = (id) => {
     const updateUrl: string = `/user/update/${id}`;
     this.router.navigate([updateUrl]);
+  }
+
+  public changePage(newPage: number): void {
+    this.currentPage = newPage;
+    this.getAllUsers();
+  }
+
+  public nextPage(): void {
+    if (this.paginationInfo.HasNext) {
+      this.currentPage++;
+      this.getAllUsers();
+    }
+  }
+
+  public previousPage(): void {
+    if (this.paginationInfo.HasPrevious) {
+      this.currentPage--;
+      this.getAllUsers();
+    }
   }
 }

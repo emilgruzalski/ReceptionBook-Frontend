@@ -16,15 +16,17 @@
         </div>
    
         <div class="mb-3 row">
-          <label for="dateOfBirth" class="col-form-label col-md-2">Type: </label>
+          <label for="type" class="col-form-label col-md-2">Type: </label>
           <div class="col-md-5">
-            <input type="text" formControlName="type" id="type" class="form-control" />
+            <select formControlName="type" id="type" class="form-control">
+              <option *ngFor="let type of types">
+                {{type}}
+            </option>
+            </select>
           </div>
           <div class="col-md-5">
             <em *ngIf="validateControl('type') 
             && hasError('type', 'required')">Type is required</em>
-            <em *ngIf="validateControl('type') 
-            && hasError('type', 'maxlength')">Maximum allowed length is 20 characters.</em>
           </div>
         </div>
    

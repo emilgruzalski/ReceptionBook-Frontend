@@ -26,6 +26,21 @@
         </div>
 
         <div class="mb-3 row">
+          <label for="roomType" class="col-form-label col-md-2">Room type: </label>
+          <div class="col-md-5">
+            <select formControlName="roomType" id="roomType" class="form-control">
+              <option *ngFor="let type of types">
+                {{type}}
+              </option>
+            </select>
+          </div>
+          <div class="col-md-5">
+            <em *ngIf="validateControl('roomType') 
+            && hasError('roomType', 'required')">Room type is required</em>
+          </div>
+        </div>
+
+        <div class="mb-3 row">
           <label for="roomId" class="col-form-label col-md-2">Room id: </label>
           <div class="col-md-5">
             <select formControlName="roomId" id="roomId" class="form-control">
@@ -67,7 +82,7 @@
             </div>
             <div class="col-md-5">
               <em *ngIf="validateControl('totalPrice')
-              && hasError('totalPrice', 'required')">Address is required</em>
+              && hasError('totalPrice', 'required')">Total price is required</em>
               <em *ngIf="validateControl('totalPrice')
               && hasError('totalPrice', 'min')">Price must be greater than 0</em>
             </div>

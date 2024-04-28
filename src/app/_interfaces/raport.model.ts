@@ -1,5 +1,4 @@
 export interface Raport{
-  year: string;
-  month: string;
+  date: Date;
   totalPrice: number;
 }

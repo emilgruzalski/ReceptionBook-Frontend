@@ -16,7 +16,7 @@ export class ReservationListComponent implements OnInit {
   errorMessage: string = '';
   paginationInfo: any;
   currentPage: number = 1;
-  pageSize: number = 5;
+  pageSize: number = 10;
 
   constructor(private repository: ReservationRepositoryService, private errorHandler: ErrorHandlerService, public router: Router) { }
 

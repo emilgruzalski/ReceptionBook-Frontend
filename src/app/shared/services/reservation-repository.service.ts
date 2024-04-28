@@ -47,7 +47,9 @@ export class ReservationRepositoryService {
   }
 
   public getRaports = (route: string) => {
-    return this.http.get<Raport[]>(this.createCompleteRoute(route, this.envUrl.urlAddress));
+    const httpOptions = { headers: new HttpHeaders({'x-pagination': 'application/json'}),
+    observe: 'response' as 'response'};
+    return this.http.get<Raport[]>(this.createCompleteRoute(route, this.envUrl.urlAddress), httpOptions);
   }
 
   private createCompleteRoute = (route: string, envAddress: string) => {

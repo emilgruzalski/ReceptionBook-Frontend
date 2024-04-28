@@ -14,6 +14,9 @@ import { Router } from '@angular/router';
 export class RoomListComponent implements OnInit {
   rooms: Room[];
   errorMessage: string = '';
+  paginationInfo: any;
+  currentPage: number = 1;
+  pageSize: number = 10;
 
   constructor(private repository: RoomRepositoryService, private errorHandler: ErrorHandlerService, public router: Router) { }
 
@@ -22,10 +25,14 @@ export class RoomListComponent implements OnInit {
   }
 
   private getAllRooms = () => {
-    const apiAddress: string = 'api/rooms';
+    const apiAddress: string = `api/rooms?PageNumber=${this.currentPage}&PageSize=${this.pageSize}`;
     this.repository.getRooms(apiAddress)
     .subscribe({
-      next: (res: Room[]) => this.rooms = res,
+      next: (res) => 
+        {
+          this.rooms = res.body;
+          this.paginationInfo = JSON.parse(res.headers.get('x-pagination'));
+        },
       error: (err: HttpErrorResponse) => {
         this.errorHandler.handleError(err);
         this.errorMessage = this.errorHandler.errorMessage;
@@ -46,6 +53,25 @@ export class RoomListComponent implements OnInit {
   public redirectToDeletePage = (id) => {
     const deleteUrl: string = `/room/delete/${id}`;
     this.router.navigate([deleteUrl]);
+  }
+
+  public changePage(newPage: number): void {
+    this.currentPage = newPage;
+    this.getAllRooms();
+  }
+
+  public nextPage(): void {
+    if (this.paginationInfo.HasNext) {
+      this.currentPage++;
+      this.getAllRooms();
+    }
+  }
+
+  public previousPage(): void {
+    if (this.paginationInfo.HasPrevious) {
+      this.currentPage--;
+      this.getAllRooms();
+    }
   }
 
 }

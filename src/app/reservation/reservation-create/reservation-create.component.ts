@@ -24,6 +24,7 @@ export class ReservationCreateComponent implements OnInit {
   bsModalRef: BsModalRef;
   rooms: Room[] = [];
   customers: Customer[] = [];
+  types = ['Single', 'Double', 'President Suite', 'Double with Children', 'Family'];
 
   constructor(private repository: ReservationRepositoryService, private errorHandler: ErrorHandlerService,
     private router: Router, private datePipe: DatePipe, private modal: BsModalService) { }
@@ -32,13 +33,14 @@ export class ReservationCreateComponent implements OnInit {
     this.reservationForm = new FormGroup({
       startDate: new FormControl('', [Validators.required]),
       endDate: new FormControl('', [Validators.required]),
+      roomType: new FormControl(this.types[0], [Validators.required]),
       roomId: new FormControl('', [Validators.required]),
       customerId: new FormControl('', [Validators.required]),
       totalPrice: new FormControl('', [Validators.required, Validators.min(1)])
     });
 
     this.loadCustomer();
-
+    
     this.reservationForm.get('startDate').valueChanges.subscribe(() => {
       this.loadAvailable();
       this.loadPrice();
@@ -52,6 +54,12 @@ export class ReservationCreateComponent implements OnInit {
     this.reservationForm.get('roomId').valueChanges.subscribe(() => {
       this.loadPrice();
     });
+
+    this.reservationForm.get('roomType').valueChanges.subscribe(() => {
+      this.loadTypes();
+    });
+
+    this.reservationForm.get('roomType').setValue(this.types[0]);
   }
 
   validateControl = (controlName: string) => {
@@ -112,14 +120,42 @@ export class ReservationCreateComponent implements OnInit {
     const startDate = this.reservationForm.get('startDate').value;
     const endDate = this.reservationForm.get('endDate').value;
     if (startDate && endDate) {
-      const apiUrl = `api/rooms/available?StartDate=${this.datePipe.transform(startDate, 'yyyy-MM-dd')}&EndDate=${this.datePipe.transform(endDate, 'yyyy-MM-dd')}`;
+      const apiUrl = `api/rooms/available?StartDate=${this.datePipe.transform(startDate, 'yyyy-MM-dd')}&EndDate=${this.datePipe.transform(endDate, 'yyyy-MM-dd')}&Type=${this.reservationForm.get('roomType').value}`;
       this.repository.getAvailableRooms(apiUrl).subscribe(data => {
         this.rooms = data;
+        if (this.rooms.length === 1) {
+          this.reservationForm.get('roomId').setValue(this.rooms[0].id);
+          this.loadPrice(); // Ensure loadPrice is called after setting the room ID.
+        } else {
+          this.reservationForm.get('roomId').setValue('');
+          this.reservationForm.get('totalPrice').setValue('');
+        }
       }, error => {
-        console.error('Błąd podczas ładowania dostępnych opcji', error);
+        console.error('Error while loading available rooms', error);
       });
     }
   }
+
+  public loadTypes() {
+    const startDate = this.reservationForm.get('startDate').value;
+    const endDate = this.reservationForm.get('endDate').value;
+    if (startDate && endDate) {
+      const apiUrl = `api/rooms/available?StartDate=${this.datePipe.transform(startDate, 'yyyy-MM-dd')}&EndDate=${this.datePipe.transform(endDate, 'yyyy-MM-dd')}&Type=${this.reservationForm.get('roomType').value}`;
+      this.repository.getAvailableRooms(apiUrl).subscribe(data => {
+        this.rooms = data;
+        if (this.rooms.length >= 1) {
+          this.reservationForm.get('roomId').setValue(this.rooms[0].id);
+          this.loadPrice(); // Ensure loadPrice is called after setting the room ID.
+        } else {
+          this.reservationForm.get('roomId').setValue('');
+          this.reservationForm.get('totalPrice').setValue('');
+        }
+      }, error => {
+        console.error('Error while loading available rooms', error);
+      });
+    }
+  }
+  
 
   public loadCustomer() {
     const apiUrl = 'api/customers';
