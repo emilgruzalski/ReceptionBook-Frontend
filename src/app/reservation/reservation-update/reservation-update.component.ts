@@ -25,6 +25,7 @@ export class ReservationUpdateComponent implements OnInit {
   customers: Customer[] = [];
   statuses: ['Confirmed', 'Cancelled', 'CheckedIn', 'CheckedOut'];
   types = ['Single', 'Double', 'President Suite', 'Double with Children', 'Family'];
+  initialLoadComplete: boolean = false;
 
 
   constructor(private repository: ReservationRepositoryService, private errorHandler: ErrorHandlerService,
@@ -42,10 +43,13 @@ export class ReservationUpdateComponent implements OnInit {
       totalPrice: new FormControl('', [Validators.required, Validators.min(1)]),
       status: new FormControl('', [Validators.required])
     });
-
     this.loadStatuses();
-    //this.loadCustomer();
+
     this.getReservationById();
+
+    this.loadAvailable();
+    
+    this.initClean();
 
     this.reservationForm.get('startDate').valueChanges.subscribe(() => {
       this.loadAvailable();
@@ -61,15 +65,19 @@ export class ReservationUpdateComponent implements OnInit {
       this.loadPrice();
     });
 
-    //this.reservationForm.get('roomType').valueChanges.subscribe(() => {
-    //  this.loadTypes();
-    //});
+    this.reservationForm.get('roomType').valueChanges.subscribe(() => {
+      this.loadTypes();
+    });
 
     this.reservationForm.get('customerName').valueChanges.subscribe(() => {
       this.loadCustomer();
     });
   }
 
+  private initClean = () => {
+    var initRoomType = this.reservation;
+    console.log(initRoomType);
+  }
   private loadStatuses = () => {
     this.statuses = ['Confirmed', 'Cancelled', 'CheckedIn', 'CheckedOut'];
   }
@@ -88,6 +96,7 @@ export class ReservationUpdateComponent implements OnInit {
           room: res.room
         };
         this.reservationForm.patchValue({ ...this.reservation, customerId: res.customer.id, customerName: this.reservation.customer.lastName, roomType: this.reservation.room.type, roomId: this.reservation.room.id });
+        this.initialLoadComplete = true;
       },
       error: (err: HttpErrorResponse) => {
         this.errorHandler.handleError(err);
@@ -150,7 +159,7 @@ export class ReservationUpdateComponent implements OnInit {
     const endDate = this.reservationForm.get('endDate').value;
     const id: string = this.activeRoute.snapshot.params['id'];
     if (startDate && endDate) {
-      const apiUrl = `api/rooms/available/${id}?StartDate=${this.datePipe.transform(startDate, 'yyyy-MM-dd')}&EndDate=${this.datePipe.transform(endDate, 'yyyy-MM-dd')}`;
+      const apiUrl = `api/rooms/available/${id}?StartDate=${this.datePipe.transform(startDate, 'yyyy-MM-dd')}&EndDate=${this.datePipe.transform(endDate, 'yyyy-MM-dd')}&Type=${this.reservationForm.get('roomType').value}`;
       this.repository.getAvailableRooms(apiUrl).subscribe(data => {
         this.rooms = data;
       }, error => {
@@ -190,6 +199,8 @@ export class ReservationUpdateComponent implements OnInit {
   }
 
   public loadTypes() {
+    if (!this.initialLoadComplete) return;
+
     const startDate = this.reservationForm.get('startDate').value;
     const endDate = this.reservationForm.get('endDate').value;
     const id: string = this.activeRoute.snapshot.params['id'];
@@ -197,13 +208,12 @@ export class ReservationUpdateComponent implements OnInit {
       const apiUrl = `api/rooms/available/${id}?StartDate=${this.datePipe.transform(startDate, 'yyyy-MM-dd')}&EndDate=${this.datePipe.transform(endDate, 'yyyy-MM-dd')}&Type=${this.reservationForm.get('roomType').value}`;
       this.repository.getAvailableRooms(apiUrl).subscribe(data => {
         this.rooms = data;
-        // Check if the current roomId is in the new list of available rooms
         const currentRoomId = this.reservationForm.get('roomId').value;
         if (this.rooms.length > 0) {
           // If the current roomId is not in the list, update it to the first available room
           for (let i = 0; i < this.rooms.length; i++) {
             if (this.rooms[i].id === currentRoomId) {
-              this.reservationForm.get('roomId').setValue(currentRoomId);
+              this.reservationForm.get('roomId').setValue(this.rooms[currentRoomId]);
               break;
             }
             else {
@@ -221,6 +231,4 @@ export class ReservationUpdateComponent implements OnInit {
       });
     }
   }
-  
-
 }
