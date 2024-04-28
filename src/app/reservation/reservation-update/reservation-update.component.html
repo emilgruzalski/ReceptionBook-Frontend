@@ -26,6 +26,21 @@
         </div>
 
         <div class="mb-3 row">
+          <label for="roomType" class="col-form-label col-md-2">Room type: </label>
+          <div class="col-md-5">
+            <select formControlName="roomType" id="roomType" class="form-control">
+              <option *ngFor="let type of types">
+                {{type}}
+              </option>
+            </select>
+          </div>
+          <div class="col-md-5">
+            <em *ngIf="validateControl('roomType') 
+            && hasError('roomType', 'required')">Room type is required</em>
+          </div>
+        </div>
+
+        <div class="mb-3 row">
           <label for="roomId" class="col-form-label col-md-2">Room id: </label>
           <div class="col-md-5">
             <select formControlName="roomId" id="roomId" class="form-control">
@@ -39,6 +54,13 @@
           <div class="col-md-5">
             <em *ngIf="validateControl('roomId')
             && hasError('roomId', 'required')">Room id is required</em>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label for="customerName" class="col-form-label col-md-2">Customer name: </label>
+          <div class="col-md-5">
+            <input type="text" formControlName="customerName" id="customerName" class="form-control" />
           </div>
         </div>
 
@@ -67,14 +89,14 @@
             </div>
             <div class="col-md-5">
               <em *ngIf="validateControl('totalPrice')
-              && hasError('totalPrice', 'required')">Address is required</em>
+              && hasError('totalPrice', 'required')">Price is required</em>
               <em *ngIf="validateControl('totalPrice')
               && hasError('totalPrice', 'min')">Price must be greater than 0</em>
             </div>
           </div>
 
           <div class="mb-3 row">
-            <label for="status" class="col-form-label col-md-2">Role: </label>
+            <label for="status" class="col-form-label col-md-2">Status: </label>
             <div class="col-md-5">
               <select formControlName="status" id="status" class="form-control">
                 <option *ngFor="let status of statuses">
@@ -84,7 +106,7 @@
             </div>
             <div class="col-md-5">
               <em *ngIf="validateControl('status')
-              && hasError('status', 'required')">Room id is required</em>
+              && hasError('status', 'required')">Status is required</em>
             </div>
           </div>
 

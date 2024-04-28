@@ -23,7 +23,8 @@ export class ReservationUpdateComponent implements OnInit {
   bsModalRef?: BsModalRef;
   rooms: Room[] = [];
   customers: Customer[] = [];
-  statuses: string[] = [];
+  statuses: ['Confirmed', 'Cancelled', 'CheckedIn', 'CheckedOut'];
+  types = ['Single', 'Double', 'President Suite', 'Double with Children', 'Family'];
 
 
   constructor(private repository: ReservationRepositoryService, private errorHandler: ErrorHandlerService,
@@ -34,17 +35,17 @@ export class ReservationUpdateComponent implements OnInit {
     this.reservationForm = new FormGroup({
       startDate: new FormControl('', [Validators.required]),
       endDate: new FormControl('', [Validators.required]),
+      roomType: new FormControl('', [Validators.required]),
       roomId: new FormControl('', [Validators.required]),
+      customerName: new FormControl(''),
       customerId: new FormControl('', [Validators.required]),
       totalPrice: new FormControl('', [Validators.required, Validators.min(1)]),
       status: new FormControl('', [Validators.required])
     });
 
     this.loadStatuses();
-
+    //this.loadCustomer();
     this.getReservationById();
-
-    this.loadCustomer();
 
     this.reservationForm.get('startDate').valueChanges.subscribe(() => {
       this.loadAvailable();
@@ -59,10 +60,18 @@ export class ReservationUpdateComponent implements OnInit {
     this.reservationForm.get('roomId').valueChanges.subscribe(() => {
       this.loadPrice();
     });
+
+    //this.reservationForm.get('roomType').valueChanges.subscribe(() => {
+    //  this.loadTypes();
+    //});
+
+    this.reservationForm.get('customerName').valueChanges.subscribe(() => {
+      this.loadCustomer();
+    });
   }
 
   private loadStatuses = () => {
-    this.statuses = ['Confirmed', 'Cancelled'];
+    this.statuses = ['Confirmed', 'Cancelled', 'CheckedIn', 'CheckedOut'];
   }
 
   private getReservationById = () => {
@@ -78,7 +87,7 @@ export class ReservationUpdateComponent implements OnInit {
           customer: res.customer,
           room: res.room
         };
-        this.reservationForm.patchValue({ ...this.reservation, customerId: res.customer.id, roomId: res.room.id });
+        this.reservationForm.patchValue({ ...this.reservation, customerId: res.customer.id, customerName: this.reservation.customer.lastName, roomType: this.reservation.room.type, roomId: this.reservation.room.id });
       },
       error: (err: HttpErrorResponse) => {
         this.errorHandler.handleError(err);
@@ -151,11 +160,20 @@ export class ReservationUpdateComponent implements OnInit {
   }
 
   public loadCustomer() {
-    const apiUrl = 'api/customers';
+    let apiUrl = 'api/customers';
+  
+    // Check if the customerName field has a value and adjust apiUrl accordingly
+    const customerName = this.reservationForm.get('customerName').value;
+    if (customerName !== '') {
+      apiUrl += `?SearchTerm=${encodeURIComponent(customerName)}`; // Use encodeURIComponent for safe URL formatting
+    }
+  
+    // Retrieve customers using the constructed apiUrl
     this.repository.getCustomers(apiUrl).subscribe(data => {
       this.customers = data;
+      this.reservationForm.get('customerId').setValue(this.customers[0].id);
     }, error => {
-      console.error('Błąd podczas ładowania dostępnych opcji', error);
+      console.error('Error while loading customers', error);
     });
   }
 
@@ -170,5 +188,39 @@ export class ReservationUpdateComponent implements OnInit {
     const totalPrice = (new Date(endDate).getTime() - new Date(startDate).getTime()) / (1000 * 60 * 60 * 24) * roomPrice;
     this.reservationForm.get('totalPrice').setValue(totalPrice);
   }
+
+  public loadTypes() {
+    const startDate = this.reservationForm.get('startDate').value;
+    const endDate = this.reservationForm.get('endDate').value;
+    const id: string = this.activeRoute.snapshot.params['id'];
+    if (startDate && endDate) {
+      const apiUrl = `api/rooms/available/${id}?StartDate=${this.datePipe.transform(startDate, 'yyyy-MM-dd')}&EndDate=${this.datePipe.transform(endDate, 'yyyy-MM-dd')}&Type=${this.reservationForm.get('roomType').value}`;
+      this.repository.getAvailableRooms(apiUrl).subscribe(data => {
+        this.rooms = data;
+        // Check if the current roomId is in the new list of available rooms
+        const currentRoomId = this.reservationForm.get('roomId').value;
+        if (this.rooms.length > 0) {
+          // If the current roomId is not in the list, update it to the first available room
+          for (let i = 0; i < this.rooms.length; i++) {
+            if (this.rooms[i].id === currentRoomId) {
+              this.reservationForm.get('roomId').setValue(currentRoomId);
+              break;
+            }
+            else {
+              this.reservationForm.get('roomId').setValue(this.rooms[0].id);
+              this.loadPrice(); 
+            }
+          }
+        }
+        else {
+          this.reservationForm.get('roomId').setValue('');
+          this.reservationForm.get('totalPrice').setValue('');
+        }
+      }, error => {
+        console.error('Error while loading available rooms', error);
+      });
+    }
+  }
+  
 
 }

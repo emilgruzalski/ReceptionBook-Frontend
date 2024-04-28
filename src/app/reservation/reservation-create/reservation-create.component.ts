@@ -63,8 +63,6 @@ export class ReservationCreateComponent implements OnInit {
     this.reservationForm.get('customerName').valueChanges.subscribe(() => {
       this.loadCustomer();
     });
-
-    //this.reservationForm.get('roomType').setValue(this.types[0]);
   }
 
   validateControl = (controlName: string) => {
